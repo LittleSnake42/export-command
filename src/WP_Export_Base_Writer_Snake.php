@@ -1,6 +1,6 @@
 <?php
 
-abstract class WP_Export_Base_Writer {
+abstract class WP_Export_Base_Writer_Snake {
 	protected $formatter;
 
 	public function __construct( $formatter ) {

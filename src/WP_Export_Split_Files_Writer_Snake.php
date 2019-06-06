@@ -1,6 +1,6 @@
 <?php
 
-class WP_Export_Split_Files_Writer extends WP_Export_Base_Writer {
+class WP_Export_Split_Files_Writer_Snake extends WP_Export_Base_Writer_Snake {
 	private $max_file_size;
 	private $destination_directory;
 	private $filename_template;
@@ -22,8 +22,8 @@ class WP_Export_Split_Files_Writer extends WP_Export_Base_Writer {
 		//TODO: check if args are not missing
 		if ( is_null( $writer_args['max_file_size'] ) ) {
 			$this->max_file_size = 15 * MB_IN_BYTES;
-		} elseif ( WP_CLI_EXPORT_COMMAND_NO_SPLIT === (string) $writer_args['max_file_size'] ) {
-			$this->max_file_size = WP_CLI_EXPORT_COMMAND_NO_SPLIT;
+		} elseif ( WP_CLI_Export_Command_Snake_NO_SPLIT === (string) $writer_args['max_file_size'] ) {
+			$this->max_file_size = WP_CLI_Export_Command_Snake_NO_SPLIT;
 		} else {
 			$this->max_file_size = $writer_args['max_file_size'] * MB_IN_BYTES;
 		}
@@ -37,7 +37,7 @@ class WP_Export_Split_Files_Writer extends WP_Export_Base_Writer {
 	public function export() {
 		$this->start_new_file();
 		foreach ( $this->formatter->posts() as $post_xml ) {
-			if ( WP_CLI_EXPORT_COMMAND_NO_SPLIT !== $this->max_file_size && $this->current_file_size + strlen( $post_xml ) > $this->max_file_size ) {
+			if ( WP_CLI_Export_Command_Snake_NO_SPLIT !== $this->max_file_size && $this->current_file_size + strlen( $post_xml ) > $this->max_file_size ) {
 				$this->start_new_file();
 			}
 			$this->write( $post_xml );
@@ -48,7 +48,7 @@ class WP_Export_Split_Files_Writer extends WP_Export_Base_Writer {
 	protected function write( $xml ) {
 		$res = fwrite( $this->f, $xml );
 		if ( false === $res ) {
-			throw new WP_Export_Exception( __( 'WP Export: error writing to export file.' ) );
+			throw new WP_Export_Exception_Snake( __( 'WP Export: error writing to export file.' ) );
 		}
 		$this->current_file_size += strlen( $xml );
 	}
@@ -60,7 +60,7 @@ class WP_Export_Split_Files_Writer extends WP_Export_Base_Writer {
 		$file_path = $this->next_file_path();
 		$this->f   = fopen( $file_path, 'w' );
 		if ( ! $this->f ) {
-			throw new WP_Export_Exception( "WP Export: error opening {$file_path} for writing." );
+			throw new WP_Export_Exception_Snake( "WP Export: error opening {$file_path} for writing." );
 		}
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Possibly used by third party extension.
 		do_action( 'wp_export_new_file', $file_path );

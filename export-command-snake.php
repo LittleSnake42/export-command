@@ -9,4 +9,4 @@ if ( file_exists( $wpcli_export_autoloader ) ) {
 	require_once $wpcli_export_autoloader;
 }
 
-WP_CLI::add_command( 'export', 'Export_Command' );
+WP_CLI::add_command( 'export-snake', 'Export_Command_Snake' );

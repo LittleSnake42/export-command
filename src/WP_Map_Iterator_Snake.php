@@ -1,6 +1,6 @@
 <?php
 
-class WP_Map_Iterator extends IteratorIterator {
+class WP_Map_Iterator_Snake extends IteratorIterator {
 	public function __construct( $iterator, $callback ) {
 		$this->callback = $callback;
 		parent::__construct( $iterator );

@@ -3,7 +3,7 @@ Feature: Export content.
   Scenario: Basic export
     Given a WP install
 
-    When I run `wp export`
+    When I run `wp export-snake`
     Then STDOUT should contain:
       """
       All done with export.
@@ -12,28 +12,28 @@ Feature: Export content.
   Scenario: Export argument validator
     Given a WP install
 
-    When I try `wp export --post_type=wp-cli-party`
+    When I try `wp export-snake --post_type=wp-cli-party`
     Then STDERR should contain:
       """
       Warning: The post type wp-cli-party does not exist.
       """
     And the return code should be 1
 
-    When I try `wp export --author=invalid-author`
+    When I try `wp export-snake --author=invalid-author`
     Then STDERR should contain:
       """
       Warning: Could not find a matching author for invalid-author
       """
     And the return code should be 1
 
-    When I try `wp export --start_date=invalid-date`
+    When I try `wp export-snake --start_date=invalid-date`
     Then STDERR should contain:
       """
       Warning: The start_date invalid-date is invalid.
       """
     And the return code should be 1
 
-    When I try `wp export --end_date=invalid-date`
+    When I try `wp export-snake --end_date=invalid-date`
     Then STDERR should contain:
       """
       Warning: The end_date invalid-date is invalid.
@@ -57,7 +57,7 @@ Feature: Export content.
       10
       """
 
-    When I run `wp export --post_type=page --post_status=draft`
+    When I run `wp export-snake --post_type=page --post_status=draft`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -97,7 +97,7 @@ Feature: Export content.
       30
       """
 
-    When I run `wp export --post_type=page,post`
+    When I run `wp export-snake --post_type=page,post`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -171,7 +171,7 @@ Feature: Export content.
       3
       """
 
-    When I run `wp export --post__in={POST_ID}`
+    When I run `wp export-snake --post__in={POST_ID}`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     And the {EXPORT_FILE} file should not contain:
@@ -218,7 +218,7 @@ Feature: Export content.
     Then STDOUT should be a number
     And save STDOUT as {POST_ID_TWO}
 
-    When I run `wp export --post__in="{POST_ID} {POST_ID_TWO}"`
+    When I run `wp export-snake --post__in="{POST_ID} {POST_ID_TWO}"`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -252,7 +252,7 @@ Feature: Export content.
       30
       """
 
-    When I run `wp export --post_type=post --start_date=2013-08-02 --end_date=2013-08-02`
+    When I run `wp export-snake --post_type=post --start_date=2013-08-02 --end_date=2013-08-02`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -301,7 +301,7 @@ Feature: Export content.
       5
       """
 
-    When I run `wp export --post_type=post --category=apple`
+    When I run `wp export-snake --post_type=post --category=apple`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
     Then the {EXPORT_FILE} file should contain:
       """
@@ -332,7 +332,7 @@ Feature: Export content.
     And I run `wp user create user user@user.com --role=editor --display_name="Test User"`
     And I run `wp post generate --post_type=post --count=10 --post_author=user`
 
-    When I run `wp export`
+    When I run `wp export-snake`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
     Then the {EXPORT_FILE} file should contain:
       """
@@ -369,7 +369,7 @@ Feature: Export content.
       10
       """
 
-    When I run `wp export --start_id=6`
+    When I run `wp export-snake --start_id=6`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -403,7 +403,7 @@ Feature: Export content.
       11
       """
 
-    When I run `wp export --post_type__not_in=post`
+    When I run `wp export-snake --post_type__not_in=post`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -431,7 +431,7 @@ Feature: Export content.
       11
       """
 
-    When I run `wp export --post_type__not_in=post,page`
+    When I run `wp export-snake --post_type__not_in=post,page`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -462,7 +462,7 @@ Feature: Export content.
       """
 
     When I run `wp post generate --post_type=post --count=10`
-    And I run `wp export --post_type=post --max_num_posts=1 --stdout | wp --skip-wordpress eval-file count-instances.php post`
+    And I run `wp export-snake --post_type=post --max_num_posts=1 --stdout | wp --skip-wordpress eval-file count-instances.php post`
     Then STDOUT should contain:
       """
       count=1
@@ -470,13 +470,13 @@ Feature: Export content.
 
     When I run `wp post generate --post_type=post --count=10`
     And I run `wp post generate --post_type=attachment --count=10`
-    And I run `wp export --max_num_posts=1 --stdout | wp --skip-wordpress eval-file count-instances.php "(post|attachment)"`
+    And I run `wp export-snake --max_num_posts=1 --stdout | wp --skip-wordpress eval-file count-instances.php "(post|attachment)"`
     Then STDOUT should contain:
       """
       count=1
       """
 
-    When I run `wp export --max_num_posts=5 --stdout | wp --skip-wordpress eval-file count-instances.php "(post|attachment)"`
+    When I run `wp export-snake --max_num_posts=5 --stdout | wp --skip-wordpress eval-file count-instances.php "(post|attachment)"`
     Then STDOUT should contain:
       """
       count=5
@@ -485,7 +485,7 @@ Feature: Export content.
   Scenario: Export a site with a custom filename format
     Given a WP install
 
-    When I run `wp export --filename_format='foo-bar.{date}.{n}.xml'`
+    When I run `wp export-snake --filename_format='foo-bar.{date}.{n}.xml'`
     Then STDOUT should contain:
       """
       foo-bar.
@@ -506,7 +506,7 @@ Feature: Export content.
       3
       """
 
-    When I run `wp export --skip_comments`
+    When I run `wp export-snake --skip_comments`
     And save STDOUT 'Writing to file %s' as {EXPORT_FILE}
 
     When I run `wp site empty --yes`
@@ -542,7 +542,7 @@ Feature: Export content.
   Scenario: Export splitting the dump
     Given a WP install
 
-    When I run `wp export --max_file_size=0.0001`
+    When I run `wp export-snake --max_file_size=0.0001`
     Then STDOUT should contain:
       """
       001.xml
@@ -557,7 +557,7 @@ Feature: Export content.
     And I run `wp db query "INSERT INTO wp_postmeta (post_id, meta_key, meta_value) VALUES (1, '_dummy', REPEAT( 'A', 4 * 1024 * 1024 ) );"`
     And I run `wp db query "INSERT INTO wp_postmeta (post_id, meta_key, meta_value) VALUES (1, '_dummy', REPEAT( 'A', 4 * 1024 * 1024 ) );"`
 
-    When I run `wp export`
+    When I run `wp export-snake`
     Then STDOUT should contain:
       """
       000.xml
@@ -568,7 +568,7 @@ Feature: Export content.
       """
     And STDERR should be empty
 
-    When I run `wp export --max_file_size=0`
+    When I run `wp export-snake --max_file_size=0`
     Then STDOUT should contain:
       """
       000.xml
@@ -579,7 +579,7 @@ Feature: Export content.
       """
     And STDERR should be empty
 
-    When I run `wp export --max_file_size=-1`
+    When I run `wp export-snake --max_file_size=-1`
     Then STDOUT should contain:
       """
       000.xml
@@ -595,7 +595,7 @@ Feature: Export content.
     And I run `wp comment generate --post_id=1 --count=1`
     And I run `wp plugin install wordpress-importer --activate`
 
-    When I run `wp export --stdout > export.xml`
+    When I run `wp export-snake --stdout > export.xml`
     Then STDOUT should be empty
     And the return code should be 0
 
@@ -636,7 +636,7 @@ Feature: Export content.
   Scenario: Error when --stdout and --dir are both provided
     Given a WP install
 
-    When I try `wp export --stdout --dir=foo`
+    When I try `wp export-snake --stdout --dir=foo`
     Then STDERR should be:
       """
       Error: --stdout and --dir cannot be used together.
@@ -699,7 +699,7 @@ Feature: Export content.
       2
       """
 
-    When I run `wp export --post__in={EXPORT_ATTACHMENT_POST_ID} --with_attachments`
+    When I run `wp export-snake --post__in={EXPORT_ATTACHMENT_POST_ID} --with_attachments`
     Then save STDOUT 'Writing to file %s' as {EXPORT_FILE}
     And the {EXPORT_FILE} file should contain:
       """

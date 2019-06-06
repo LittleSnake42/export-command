@@ -1,14 +1,14 @@
 {
-    "name": "wp-cli/export-command",
+    "name": "LittleSnake42/export-command",
     "type": "wp-cli-package",
     "description": "Exports WordPress content to a WXR file.",
-    "homepage": "https://github.com/wp-cli/export-command",
+    "homepage": "https://github.com/LittleSnake42/export-command",
     "license": "MIT",
     "authors": [
         {
-            "name": "Daniel Bachhuber",
-            "email": "daniel@runcommand.io",
-            "homepage": "https://runcommand.io"
+            "name": "Rémi Marandon",
+            "email": "remi.marandon@gmail.com",
+            "homepage": "https://marandon.pro"
         }
     ],
     "require": {
@@ -40,7 +40,7 @@
             "": "src/"
         },
         "files": [
-            "export-command.php"
+            "export-command-snake.php"
         ]
     },
     "minimum-stability": "dev",

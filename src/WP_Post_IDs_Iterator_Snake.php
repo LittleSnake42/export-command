@@ -1,6 +1,6 @@
 <?php
 
-class WP_Post_IDs_Iterator implements Iterator {
+class WP_Post_IDs_Iterator_Snake implements Iterator {
 	private $limit = 100;
 	private $post_ids;
 	private $ids_left;
@@ -56,7 +56,7 @@ class WP_Post_IDs_Iterator implements Iterator {
 		$this->results       = $this->db->get_results( "SELECT * FROM {$this->db->posts} WHERE $in_post_ids_sql" );
 		if ( ! $this->results ) {
 			if ( $this->db->last_error ) {
-				throw new WP_Iterator_Exception( 'Database error: ' . $this->db->last_error );
+				throw new WP_Iterator_Exception_Snake( 'Database error: ' . $this->db->last_error );
 			} else {
 				return false;
 			}

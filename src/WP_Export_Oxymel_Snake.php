@@ -1,6 +1,6 @@
 <?php
 
-class WP_Export_Oxymel extends Oxymel {
+class WP_Export_Oxymel_Snake extends Oxymel {
 	public function optional( $tag_name, $contents ) {
 		if ( $contents ) {
 			$this->$tag_name( $contents );

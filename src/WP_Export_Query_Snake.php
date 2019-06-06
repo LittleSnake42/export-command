@@ -7,7 +7,7 @@ use WP_CLI\Utils;
  *
  * An immutable object, which gathers all data needed for the export.
  */
-class WP_Export_Query {
+class WP_Export_Query_Snake {
 	const QUERY_CHUNK = 100;
 
 	private static $defaults = array(
@@ -142,8 +142,8 @@ class WP_Export_Query {
 	}
 
 	public function posts() {
-		$posts_iterator = new WP_Post_IDs_Iterator( $this->post_ids, self::QUERY_CHUNK );
-		return new WP_Map_Iterator( $posts_iterator, array( $this, 'exportify_post' ) );
+		$posts_iterator = new WP_Post_IDs_Iterator_Snake( $this->post_ids, self::QUERY_CHUNK );
+		return new WP_Map_Iterator_Snake( $posts_iterator, array($this, 'exportify_post' ) );
 	}
 
 	private function calculate_post_ids() {
@@ -361,7 +361,7 @@ class WP_Export_Query {
 		foreach ( $have_parent as $has_parent ) {
 			if ( ! isset( $term_ids[ $has_parent->parent ] ) ) {
 				$this->missing_parents = $has_parent;
-				throw new WP_Export_Term_Exception( "Term is missing a parent: {$has_parent->slug} ({$has_parent->term_taxonomy_id})" );
+				throw new WP_Export_Term_Exception_Snake( "Term is missing a parent: {$has_parent->slug} ({$has_parent->term_taxonomy_id})" );
 			}
 		}
 	}

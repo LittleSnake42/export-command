@@ -1,6 +1,6 @@
 <?php
 
-class WP_Export_Stdout_Writer extends WP_Export_Base_Writer {
+class WP_Export_Stdout_Writer_Snake extends WP_Export_Base_Writer_Snake {
 
 	public function __construct( $formatter, $writer_args ) {
 		parent::__construct( $formatter );
